@@ -1,0 +1,222 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:ace="http://www.icefaces.org/icefaces/components"
+      xmlns:p="http://primefaces.org/ui">
+    <h:body>
+
+        <ui:composition template="template/layoutTemplate.xhtml">
+            <ui:define name="content">
+                <h:form prependId="false">
+                    <div class="form-label">
+                        <h:outputLabel>X VALUE:</h:outputLabel>
+                    </div>
+
+                    <p:inputText id="x" value="#{controller.x}" onchange="validX()" forceId="true"/>
+                    <p:slider for="x" minValue="-3.0" maxValue="3.0" step="0.5"/>
+
+                    <div class="form-label">
+                        <h:outputLabel>Y VALUE:</h:outputLabel>
+                    </div>
+                    <h:inputText onchange="validY()" required="true" maxlength="8" id="y" value="#{controller.y}"/>
+
+                    <div class="form-label">
+                        <h:outputLabel>R VALUE:</h:outputLabel>
+                    </div>
+                    <h:inputText onchange="validR(); changeDotPos();" required="true" maxlength="8" id="r" value="#{controller.r}"/>
+
+                    <br/>
+                    <label id="error-message"/>
+                    <br/>
+                    <label id="error-message-R"/>
+                    <br/>
+
+                    <div class="submit-button-container" style="text-align: center">
+                        <h:commandButton class="submit-button" value="submit" action="#{controller.checkArea}"/>
+                    </div>
+                    <div class="clear-button-container" style="text-align: center">
+                        <h:commandButton class="clear-button" value="clear" action="#{db.deleteAll}"/>
+                    </div>
+                </h:form>
+
+                <script type="text/javascript">
+                    let is_y_valid = true;
+                    let is_r_valid = true;
+                    let is_x_valid = true;
+
+                    let id_pref = "";
+
+                    function validY() {
+                        let element = document.getElementById(id_pref + "y");
+                        const errmsg = document.getElementById("error-message");
+                        let y = element.value.replace(/,/, '.');
+                        let isValid = isNumber(y);
+                        isValid = isValid &amp;&amp; (y &lt; 3) &amp;&amp; (y > -5);
+                        if (!isValid) {
+                            element.style.borderColor = "red";
+                        } else {
+                            element.style.borderColor = "green";
+                        }
+
+                        if (!isValid) {
+                            errmsg.textContent = "Error";
+                        } else {
+                            errmsg.textContent = " ";
+                        }
+
+                        is_y_valid = isValid;
+                        isValid = isValid &amp;&amp; is_r_valid &amp;&amp; is_x_valid;
+                        disableButtons(!isValid);
+                        return is_y_valid;
+                    }
+
+                    function validX() {
+                        let element = document.getElementById(id_pref + "x");
+                        let x = element.value.replace(/,/, '.');
+                        let isValid = isNumber(x);
+                        isValid = isValid &amp;&amp; (x &lt;= 3) &amp;&amp; (x >= -3);
+
+                        if (!isValid) {
+                            element.style.borderColor = "red";
+                        } else {
+                            element.style.borderColor = "green";
+                        }
+
+                        isValid = isValid &amp;&amp; is_r_valid &amp;&amp; is_y_valid;
+                        disableButtons(!isValid);
+                    }
+
+                    function validR() {
+                        let element = document.getElementById(id_pref + "r");
+                        const errmsg = document.getElementById("error-message-R");
+                        let r = element.value.replace(/,/, '.');
+                        let isValid = isNumber(r);
+                        isValid = isValid &amp;&amp; (r &lt;= 4) &amp;&amp; (r >= 1);
+
+                        if (!isValid) {
+                            element.style.borderColor = "red";
+                        } else {
+                            element.style.borderColor = "green";
+                        }
+
+                        if (!isValid) {
+                            errmsg.textContent = "Incorrect R";
+                        } else {
+                            errmsg.textContent = " ";
+                        }
+
+                        is_r_valid = isValid;
+                        isValid = isValid &amp;&amp; is_y_valid &amp;&amp; is_x_valid;
+                        disableButtons(!isValid);
+                        return is_r_valid;
+                    }
+
+                    function isNumber(n) {
+                        return !isNaN(parseFloat(n)) &amp;&amp; !isNaN(n - 0)
+                    }
+
+                    function disableButtons(isDisabled) {
+                        let buttonsList = document.querySelectorAll(".submit-button-container input[type=submit]");
+                        buttonsList.forEach(function (button) {
+                            button.disabled = isDisabled;
+                        });
+                    }
+
+                    disableButtons(true);
+                    validX();
+                    validY();
+                    validR();
+
+                    function getDotCoor() {
+                        const plot_container = document.getElementById("svg-plot");
+                        let rect = plot_container.getBoundingClientRect();
+                        let y_dot = (event.clientY - rect.top);
+                        let x_dot = (event.clientX - rect.left);
+                        let y = (150 - y_dot);
+                        let x = (-150 + x_dot);
+
+                        let isDotAllowed = validR();
+                        if (isDotAllowed) {
+                            let r = getR();
+                            y = y / 120 * r;
+                            x = x / 120 * r;
+                            let dot = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+                            dot.setAttribute("r", "3");
+                            dot.setAttribute("cx", Math.round(x_dot));
+                            dot.setAttribute("cy", Math.round(y_dot));
+                            document.getElementById("svg-plot").appendChild(dot);
+                            if (!check(x, y, r)) {
+                                dot.setAttribute("stroke", "red");
+                                dot.setAttribute("fill", "red");
+                            } else {
+                                dot.setAttribute("stroke", "green");
+                                dot.setAttribute("fill", "green");
+                            }
+                            dot.setAttribute("class", r);
+                            sendDot([{name: 'x', value: x}, {name: 'y', value: y}, {name: 'r', value: r}]);
+                        }
+                    }
+
+                    function changeDotPos() {
+                        if (validR()) {
+                            let dotsList = document.querySelectorAll("circle");
+                            dotsList.forEach(function (dot) {
+                                let x_dot_prev = parseInt(dot.getAttribute("cx"));
+                                let y_dot_prev = dot.getAttribute("cy");
+                                let r_prev = dot.getAttribute("class");
+                                let y = (150 - y_dot_prev);
+                                let x = (-150 + x_dot_prev);
+                                y = y * r_prev;
+                                x = x * r_prev;
+                                let r_cur = getR();
+                                y = y / r_cur;
+                                x = x / r_cur;
+                                let x_dot_cur = x + 150;
+                                let y_dot_cur = 150 - y;
+                                if (!check((-150 + x_dot_cur) / 120 * r_cur, (150 - y_dot_cur) / 120 * r_cur, r_cur)) {
+                                    dot.setAttribute("stroke", "red");
+                                    dot.setAttribute("fill", "red");
+                                } else {
+                                    dot.setAttribute("stroke", "green");
+                                    dot.setAttribute("fill", "green");
+                                }
+                                dot.setAttribute("cx", Math.round(x_dot_cur));
+                                dot.setAttribute("cy", Math.round(y_dot_cur));
+                                dot.setAttribute("class", r_cur);
+                            })
+                        }
+                    }
+
+                    function check(x, y, r) {
+                        return checkCircle(x, y, r) || checkRectangle(x, y, r) || checkTriangle(x, y, r);
+                    }
+
+                    function checkRectangle(x, y, r) {
+                        return (x &lt;= 0.5 * r) &amp;&amp; (x >= 0) &amp;&amp; (y >= -r) &amp;&amp; (y &lt;= 0);
+                    }
+
+                    function checkCircle(x, y, r) {
+                        return (x * x + y * y &lt;= r * r) &amp;&amp; (x &lt;= 0) &amp;&amp; (y >= 0);
+                    }
+
+                    function checkTriangle(x, y, r) {
+                        return (-x - r * 0.5 &lt;= y) &amp;&amp; (x &lt;= 0) &amp;&amp; (y &lt;= 0);
+                    }
+
+                    function getR() {
+                        return document.getElementById(id_pref + "r").value;
+                    }
+                </script>
+
+                <ui:include src="template/plotTemplate.xhtml"/>
+                <div class="table-container">
+                    <ui:include src="template/tableTemplate.xhtml"/>
+                </div>
+            </ui:define>
+        </ui:composition>
+    </h:body>
+</html>

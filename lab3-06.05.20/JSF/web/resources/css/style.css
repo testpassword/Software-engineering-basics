@@ -1,0 +1,76 @@
+* {
+    margin: 0;
+    padding: 0;
+    font-size: 1em;
+}
+
+body {
+    background: white;
+    color: white;
+    width: 100vw;
+    display: flex;
+    overflow-x: hidden;
+    flex-direction: column;
+    font-family: 'Ubuntu', sans-serif;
+    font-size: 2vh;
+}
+
+#clock {
+    text-align: center;
+    color: #2B2A2A;
+    margin: 0 auto;
+    font-size: 40vh;
+    font-family: 'Pacifico', cursive;
+}
+
+body, html, p, div {
+	width: 100%;
+    text-align: left;
+    font-family: 'Pacifico', cursive;
+}
+
+#header > p {
+    width: 100%;
+    font-size: 200%;
+    text-align: center;
+}
+
+#header {
+    align-self: flex-start;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    background: #1946BA;
+}
+
+#header > span{
+    padding: 1%;
+    font-style: italic;
+}
+
+#content {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    min-height: 100vh;
+}
+
+
+.plot {
+    display: flex;
+    width: 300px;
+    height: 300px;
+    margin: 1% auto;
+    background-color: white;
+    padding: 2%;
+    border: 3px solid #1946BA;
+    border-radius: 20px;
+}
+
+svg {
+    margin: auto auto;
+    display: block;
+    text-align: right;
+    background-color: white;
+}

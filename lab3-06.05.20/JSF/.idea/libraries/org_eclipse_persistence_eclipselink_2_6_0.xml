@@ -1,0 +1,14 @@
+<component name="libraryTable">
+  <library name="org.eclipse.persistence:eclipselink:2.6.0" type="repository">
+    <properties maven-id="org.eclipse.persistence:eclipselink:2.6.0" />
+    <CLASSES>
+      <root url="jar://$MAVEN_REPOSITORY$/org/eclipse/persistence/eclipselink/2.6.0/eclipselink-2.6.0.jar!/" />
+      <root url="jar://$MAVEN_REPOSITORY$/org/eclipse/persistence/javax.persistence/2.1.0/javax.persistence-2.1.0.jar!/" />
+      <root url="jar://$MAVEN_REPOSITORY$/org/eclipse/persistence/commonj.sdo/2.1.1/commonj.sdo-2.1.1.jar!/" />
+      <root url="jar://$MAVEN_REPOSITORY$/javax/validation/validation-api/1.1.0.Final/validation-api-1.1.0.Final.jar!/" />
+      <root url="jar://$MAVEN_REPOSITORY$/org/glassfish/javax.json/1.0.4/javax.json-1.0.4.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

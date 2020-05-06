@@ -1,0 +1,39 @@
+.table-container, .res-table {
+	width: 100%;
+	padding: 10px;
+}
+
+.res-table {
+	width: 100%;
+	background: #379CE6;
+	line-height: 2;
+	text-transform: uppercase;
+	text-align: center;
+	font-weight: bold;
+	margin: 20px auto;
+}
+
+.res-table caption {
+	background: #1946BA;
+}
+
+.res-table th {
+	width: 0.5%;
+	background: #3C5FFF;
+}
+
+tbody {
+	min-width: 300px;
+	min-height: 300px;
+	width: 15vh;
+}
+
+tr {
+	height: 15vh;
+	min-height: 50px;
+}
+
+td {
+	min-width: 15vh;
+	min-height: 50px;
+}

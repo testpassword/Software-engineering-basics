@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
+    <data-source source="LOCAL" name="dots" uuid="cb22e950-c6a1-4709-b6aa-ae2a88d35110">
+      <driver-ref>postgresql</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>org.postgresql.Driver</jdbc-driver>
+      <jdbc-url>jdbc:postgresql://localhost:5432/postgres</jdbc-url>
+    </data-source>
+    <data-source source="LOCAL" name="dots/EclipseLink" uuid="f8b1f4e3-c641-41d6-9723-db72013b5fe7">
+      <driver-ref>postgresql</driver-ref>
+      <synchronize>true</synchronize>
+      <imported>true</imported>
+      <remarks>EclipseLink
+
+C:/Users/User/Desktop/JSF/src/META-INF/persistence.xml</remarks>
+      <jdbc-driver>org.postgresql.Driver</jdbc-driver>
+      <jdbc-url>jdbc:postgresql://localhost:5432/postgres</jdbc-url>
+    </data-source>
+  </component>
+</project>

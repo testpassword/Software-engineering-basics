@@ -1,0 +1,46 @@
+form{
+    display: block;
+    width: 30vw;
+    min-width: 350px;
+    margin: 1% auto;
+    color: black;
+    text-align: center;
+}
+
+#error-message, #error-message-R {
+    color: red;
+    text-transform: uppercase;
+}
+
+.form-label{
+    !important;
+    width: 23vw;
+    text-align: center;
+    margin: 0 auto;
+}
+
+input[type="text"] {
+    width: 150px;
+    padding: 5px;
+    border: none;
+    border-bottom: 4px solid  #CDD1DA;
+    text-align: center;
+    font-size: 150%;
+    margin: 5px;
+    background: none;
+    box-shadow: none;
+    border-radius: 0;
+}
+
+input[type="submit"] {
+    !important;
+    width: 30vw;
+    height: 8vh;
+    border-radius: 10px;
+    background: #1946BA;
+}
+
+input[type="submit"]:disabled {
+    !important;
+    background: #B1AEAE;
+}

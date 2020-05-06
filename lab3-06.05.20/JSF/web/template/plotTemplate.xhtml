@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+<f:view>
+    <ui:composition>
+        <h:form style="display: none">
+            <p:remoteCommand update="res-table" name="sendDot" actionListener="#{controller.plotCheckArea}"/>
+        </h:form>
+
+        <div class="plot">
+            <svg version="1.1"
+                 baseProfile="full"
+                 width="300" height="300"
+                 xmlns="http://www.w3.org/2000/svg"
+                 id="svg-plot"
+                 onclick="getDotCoor()">
+                <line x1="0" y1="150" x2="300" y2="150" stroke-width="1" stroke="#000720"/>
+                <line x1="150" y1="0" x2="150" y2="300" stroke-width="1" stroke="#000720"/>
+                <!-- стрелочки -->
+                <line x1="300" y1="150" x2="296" y2="146" stroke-width="1" stroke="#000720"/>
+                <line x1="300" y1="150" x2="296" y2="154" stroke-width="1" stroke="#000720"/>
+                <line x1="150" y1="0" x2="146" y2="4" stroke-width="1" stroke="#000720"/>
+                <line x1="150" y1="0" x2="154" y2="4" stroke-width="1" stroke="#000720"/>
+                <!-- разметка размера -->
+                <line x1="270" y1="148" x2="270" y2="152" stroke="#000720"/>
+                <text x="265" y="140">R</text>
+                <line x1="210" y1="148" x2="210" y2="152" stroke="#000720"/>
+                <text x="200" y="140">R/2</text>
+                <line x1="90" y1="148" x2="90" y2="152" stroke="#000720"/>
+                <text x="75" y="140">-R/2</text>
+                <line x1="30" y1="148" x2="30" y2="152" stroke="#000720"/>
+                <text x="20" y="140">-R</text>
+                <line x1="148" y1="30" x2="152" y2="30" stroke="#000720"/>
+                <text x="156" y="35">R</text>
+                <line x1="148" y1="90" x2="152" y2="90" stroke="#000720"/>
+                <text x="156" y="95">R/2</text>
+                <line x1="148" y1="210" x2="152" y2="210" stroke="#000720"/>
+                <text x="156" y="215">-R/2</text>
+                <line x1="148" y1="270" x2="152" y2="270" stroke="#000720"/>
+                <text x="156" y="275">-R</text>
+                <!-- фигуры в центре -->
+                <rect x="150" y="150" width="60" height="120" fill="#75A9D5" fill-opacity="0.4" stroke="#986E6E"/>
+                <polygon points="150,150 150,210 90,150" fill="#75A9D5" fill-opacity="0.4" stroke="#986E6E"/>
+                <path d="M150 150
+                         L 150 30
+                         A 120 120, 0, 0, 0, 30 150 Z" fill="#75A9D5" fill-opacity="0.4" stroke="#986E6E"/>"
+                <h:outputText escape="false" value="#{db.resultAllDot}"/>
+            </svg>
+        </div>
+    </ui:composition>
+</f:view>
+</html>

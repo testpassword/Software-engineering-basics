@@ -1,0 +1,20 @@
+<component name="ArtifactManager">
+  <artifact type="exploded-war" name="JSF:war exploded">
+    <output-path>$PROJECT_DIR$/out/artifacts/JSF_war_exploded</output-path>
+    <root id="root">
+      <element id="javaee-facet-resources" facet="JSF/web/Web" />
+      <element id="directory" name="WEB-INF">
+        <element id="directory" name="classes">
+          <element id="module-output" name="JSF" />
+          <element id="jpa-descriptors" facet="JSF/jpa/JPA" />
+        </element>
+        <element id="directory" name="lib">
+          <element id="library" level="project" name="Mojarra-2.4.0" />
+          <element id="library" level="project" name="postgresql-42.2.5" />
+          <element id="library" level="project" name="org.eclipse.persistence:eclipselink:2.6.0" />
+          <element id="library" level="project" name="PrimeFaces-6.1" />
+        </element>
+      </element>
+    </root>
+  </artifact>
+</component>
