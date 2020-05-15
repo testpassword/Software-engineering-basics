@@ -11,11 +11,11 @@ import static org.junit.jupiter.api.Assertions.*;
  */
 class DotTest {
 
-    private final static double x = 1;
-    private final static double y = 1;
-    private final static double r = 1;
-    private final static String res = "test";
-    private final static Dot testDot = new Dot(x, y, r, res);
+    private final double x = 1;
+    private final double y = 1;
+    private final double r = 1;
+    private final String res = "test";
+    private final Dot testDot = new Dot(x, y, r, res);
     private final static String className = Dot.class.getName();
 
     @BeforeAll
@@ -24,7 +24,7 @@ class DotTest {
     @AfterAll
     static void done() { System.out.println("тестирование " + className + " завершено"); }
 
-    @Test
+    @Test @Order(1)
     void emptyConstructor() {
         Dot empty = new Dot();
         assertAll(
@@ -36,7 +36,7 @@ class DotTest {
         );
     }
 
-    @Test
+    @Test @Order(2)
     void fullConstructor() {
         assertAll(
                 () -> assertNotNull(testDot, "Объект не был создан"),

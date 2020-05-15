@@ -15,7 +15,7 @@ import static org.junit.jupiter.api.Assertions.*;
  */
 class ControllerBeanTest {
 
-    private static final ControllerBean controller = new ControllerBean();
+    private final ControllerBean controller = new ControllerBean();
     private final static String className = Dot.class.getName();
 
     @BeforeAll
@@ -25,7 +25,7 @@ class ControllerBeanTest {
     static void done() { System.out.println("тестирование " + className + " завершено"); }
 
     @Test
-    private void areaAndPlotAreaCheck() {
+    void areaAndPlotAreaCheck() {
         assertThrows(NumberFormatException.class, () -> {
             String x = "qw";
             String y = "er";
