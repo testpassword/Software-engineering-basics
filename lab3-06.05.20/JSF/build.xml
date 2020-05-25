@@ -1,1 +1,75 @@
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="WEB3" default="compile">
+
+    <property name="src" location="src"/>
+    <property name="class" location="ant_output/classes"/>
+    <property name="jar" location="ant_output/artifacts"/>
+    <property name="sound-success" location="sounds/Сергей Думцев - Баллада о БЭВМ.wav"/>
+    <property name="sound-failure" location="sounds/dope - die mf die.wav"/>
+    <path id="classpath">
+        <fileset dir="lib" includes="*.jar"/>
+    </path>
+
+    <target name="compile" description="компиляция исходных кодов проекта">
+        <echo>Compilation..</echo>
+        <javac includeantruntime="false" srcdir="${src}" destdir="${class}">
+            <classpath refid="classpath"/>
+        </javac>
+        <echo>Compilation success!</echo>
+    </target>
+
+    <target name="build" depends="compile" description="упаковка скомпилированных файлов в исполняемый jar-архив">
+        <echo>Building..</echo>
+        <jar basedir="${class}" destfile="${jar}/${ant.project.name}.jar"/>
+        <manifest>
+            <attribute name="Main-Class" value="controllers.ControllerBean"/>
+        </manifest>
+        <echo>Building success!</echo>
+    </target>
+
+    <!--по фану добавил-->
+    <target name="music" depends="compile" description="воспроизведение музыки по завершению сборки">
+        <taskdef name="sound" classname="org.apache.tools.ant.taskdefs.optional.sound.SoundTask"/>
+        <sound>
+            <success source="${sound-success}"/>
+            <success source="${sound-failure}"/>
+        </sound>
+    </target>
+
+    <target name="clean" depends="compile" description="удаление скомпилированных классов проекта и всех временных файлов">
+        <echo>Cleaning..</echo>
+        <delete>
+            <fileset dir="${class}">
+                <include name="**/*"/>
+            </fileset>
+        </delete>
+        <echo>Cleaning done!</echo>
+    </target>
+
+    <!--<target name="test" depends="build" description="запуск junit-тестов проекта">
+        <echo>Testing..</echo>
+        <mkdir dir="${report}"/>
+        <junit printsummary="yes">
+            <classpath>
+                <pathelement path="${junitfile}"/>
+                <pathelement location="${classes}"/>
+            </classpath>
+            <formatter type="xml"/>
+            <batchtest fork="yes" todir="${report}">
+                <fileset dir="${classes}" includes="**/*Test*"/>
+            </batchtest>
+        </junit>
+        <echo>Testing complete!</echo>
+    </target>-->
+
+    <!--<target name="scp" depends="build" description="перемещение собранного проекта по scp на выбранный сервер по завершению сборки">
+        <echo>Sending..</echo>
+        <echo>Sending success!</echo>
+    </target>-->
+
+    <!--<target name="alt" depends="build" description="создаёт альтернативную версию программы с измененными именами
+    переменных и классов (используя задание replace/replaceregexp в файлах параметров) и упаковывает её в jar-архив">
+        <echo>Making alt version..</echo>
+        <echo>Success!</echo>
+    </target>-->
+</project>

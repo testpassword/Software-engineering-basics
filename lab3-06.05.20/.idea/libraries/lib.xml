@@ -9,8 +9,10 @@
       <root url="jar://$PROJECT_DIR$/JSF/out/artifacts/JSF_war_exploded/WEB-INF/lib/eclipselink-2.6.0.jar!/" />
       <root url="jar://$PROJECT_DIR$/JSF/out/artifacts/JSF_war_exploded/WEB-INF/lib/javax.persistence-2.1.0.jar!/" />
       <root url="jar://$PROJECT_DIR$/JSF/out/artifacts/JSF_war_exploded/WEB-INF/lib/primefaces-6.1.jar!/" />
+      <root url="file://$PROJECT_DIR$/JSF/out/artifacts/JSF_war_exploded/WEB-INF/lib" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />
+    <jarDirectory url="file://$PROJECT_DIR$/JSF/out/artifacts/JSF_war_exploded/WEB-INF/lib" recursive="false" />
   </library>
 </component>
