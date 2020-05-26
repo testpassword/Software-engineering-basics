@@ -9,7 +9,7 @@ import static org.junit.jupiter.api.Assertions.*;
  * @author Кульбако Артемий.
  * @version 1.0
  */
-class DotTest {
+public class DotTest {
 
     private final double x = 1;
     private final double y = 1;
@@ -19,13 +19,13 @@ class DotTest {
     private final static String className = Dot.class.getName();
 
     @BeforeAll
-    static void init() { System.out.println("тестирование " + className + " запущено"); }
+    public static void init() { System.out.println("тестирование " + className + " запущено"); }
 
     @AfterAll
-    static void done() { System.out.println("тестирование " + className + " завершено"); }
+    public static void done() { System.out.println("тестирование " + className + " завершено"); }
 
     @Test @Order(1)
-    void emptyConstructor() {
+    public void emptyConstructor() {
         Dot empty = new Dot();
         assertAll(
                 () -> assertNotNull(empty, "Объект не был создан"),
@@ -37,7 +37,7 @@ class DotTest {
     }
 
     @Test @Order(2)
-    void fullConstructor() {
+    public void fullConstructor() {
         assertAll(
                 () -> assertNotNull(testDot, "Объект не был создан"),
                 () -> assertEquals(r, testDot.getR(), 0.001 ),
@@ -48,13 +48,13 @@ class DotTest {
     }
 
     @Test
-    void toDotString() {
+    public void toDotString() {
         String expected = "<circle r=\"3\" cx=\"270\" cy=\"30\" class=\"1.0\" stroke=\"red\" fill=\"red\"></circle>";
         assertEquals(expected, testDot.toDotString(), "html-код circle не совпадает с ожидаемым");
     }
 
     @Test
-    void toTrString() {
+    public void toTrString() {
         String expected = "<tr><td>1.0</td><td>1.0</td><td>1.0</td><td>test</td></tr>";
         assertEquals(expected, testDot.toTrString(), "табличное html-значение точки формируется неверно");
     }

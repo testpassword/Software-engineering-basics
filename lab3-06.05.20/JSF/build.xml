@@ -4,6 +4,9 @@
     <property name="src" location="src"/>
     <property name="class" location="ant_output/classes"/>
     <property name="jar" location="ant_output/artifacts"/>
+    <property name="alt" location="ant_output/alt"/>
+    <property name="reports" location="ant_output/reports"/>
+    <property name="main_class" location="src/controllers/ControllerBean.java"/>
     <property name="sound-success" location="sounds/Сергей Думцев - Баллада о БЭВМ.wav"/>
     <property name="sound-failure" location="sounds/dope - die mf die.wav"/>
     <path id="classpath">
@@ -12,6 +15,7 @@
 
     <target name="compile" description="компиляция исходных кодов проекта">
         <echo>Compilation..</echo>
+        <mkdir dir="${class}"/>
         <javac includeantruntime="false" srcdir="${src}" destdir="${class}">
             <classpath refid="classpath"/>
         </javac>
@@ -20,15 +24,17 @@
 
     <target name="build" depends="compile" description="упаковка скомпилированных файлов в исполняемый jar-архив">
         <echo>Building..</echo>
-        <jar basedir="${class}" destfile="${jar}/${ant.project.name}.jar"/>
-        <manifest>
-            <attribute name="Main-Class" value="controllers.ControllerBean"/>
-        </manifest>
+        <mkdir dir="${jar}"/>
+        <jar basedir="${class}" destfile="${jar}/${ant.project.name}.jar">
+            <manifest>
+                <attribute name="Main-Class" value="${main_class}"/>
+            </manifest>
+        </jar>
         <echo>Building success!</echo>
     </target>
 
     <!--по фану добавил-->
-    <target name="music" depends="compile" description="воспроизведение музыки по завершению сборки">
+    <target name="music" depends="build" description="воспроизведение музыки по завершению сборки">
         <taskdef name="sound" classname="org.apache.tools.ant.taskdefs.optional.sound.SoundTask"/>
         <sound>
             <success source="${sound-success}"/>
@@ -36,40 +42,72 @@
         </sound>
     </target>
 
-    <target name="clean" depends="compile" description="удаление скомпилированных классов проекта и всех временных файлов">
+    <target name="clean" description="удаление скомпилированных классов проекта и всех временных файлов">
         <echo>Cleaning..</echo>
-        <delete>
-            <fileset dir="${class}">
-                <include name="**/*"/>
-            </fileset>
-        </delete>
+        <delete dir="${class}"/>
         <echo>Cleaning done!</echo>
     </target>
 
-    <!--<target name="test" depends="build" description="запуск junit-тестов проекта">
+    <target name="test" depends="compile" description="запуск junit-тестов проекта">
         <echo>Testing..</echo>
-        <mkdir dir="${report}"/>
-        <junit printsummary="yes">
-            <classpath>
-                <pathelement path="${junitfile}"/>
-                <pathelement location="${classes}"/>
-            </classpath>
-            <formatter type="xml"/>
-            <batchtest fork="yes" todir="${report}">
-                <fileset dir="${classes}" includes="**/*Test*"/>
-            </batchtest>
+        <mkdir dir="${reports}"/>
+        <junit haltonfailure="yes">
+            <classpath refid="classpath"/>
+            <classpath location="${class}"/>
+            <test name="test.DBManagerTest"/>
         </junit>
         <echo>Testing complete!</echo>
-    </target>-->
+    </target>
 
-    <!--<target name="scp" depends="build" description="перемещение собранного проекта по scp на выбранный сервер по завершению сборки">
+    <target name="scp" depends="build" description="перемещение собранного проекта по scp на выбранный сервер по завершению сборки">
         <echo>Sending..</echo>
+        <scp file="${jar}/${ant.project.name}.jar"
+             todir="s265570@se.ifmo.ru:~/"
+             password="abctest" trust="true" port="2222"/>
         <echo>Sending success!</echo>
-    </target>-->
+    </target>
 
-    <!--<target name="alt" depends="build" description="создаёт альтернативную версию программы с измененными именами
+    <target name="alt" depends="build" description="создаёт альтернативную версию программы с измененными именами
     переменных и классов (используя задание replace/replaceregexp в файлах параметров) и упаковывает её в jar-архив">
         <echo>Making alt version..</echo>
+        <mkdir dir="${alt}/src"/>
+        <copy todir="${alt}/src">
+            <fileset dir="${src}"/>
+        </copy>
+        <delete dir="${alt}/src/tests"/>
+        <mkdir dir="${alt}/artifacts"/>
+        <move file="${alt}/src/controllers/AreaValidator.java" tofile="${alt}/src/controllers/AltAreaValidator.java"/>
+        <move file="${alt}/src/controllers/ControllerBean.java" tofile="${alt}/src/controllers/AltControllerBean.java"/>
+        <move file="${alt}/src/controllers/DBBean.java" tofile="${alt}/src/controllers/AltDBBean.java"/>
+        <move file="${alt}/src/controllers/DBManager.java" tofile="${alt}/src/controllers/AltDBManager.java"/>
+        <move file="${alt}/src/controllers/InformationBean.java" tofile="${alt}/src/controllers/AltInformationBean.java"/>
+        <move file="${alt}/src/controllers/SliderBean.java" tofile="${alt}/src/controllers/AltSliderBean.java"/>
+        <move file="${alt}/src/models/Dot.java" tofile="${alt}/src/models/AltDot.java"/>
+        <replace token="AreaValidator" value="AltAreaValidator">
+            <fileset dir="${alt}/src" includes="**/*.java"/>
+        </replace>
+        <replace token="ControllerBean" value="AltControllerBean">
+            <fileset dir="${alt}/src/controllers" includes="**/*.java"/>
+        </replace>
+        <replace token="DBBean" value="AltDBBean">
+            <fileset dir="${alt}/src/controllers" includes="**/*.java"/>
+        </replace>
+        <replace token="DBManager" value="AltDBManager">
+            <fileset dir="${alt}/src/controllers" includes="**/*.java"/>
+        </replace>
+        <replace token="InformationBean" value="AltInformationBean">
+            <fileset dir="${alt}/src/controllers" includes="**/*.java"/>
+        </replace>
+        <replace token="SliderBean" value="AltSliderBean">
+            <fileset dir="${alt}/src/controllers" includes="**/*.java"/>
+        </replace>
+        <replace token="Dot" value="AltDot">
+            <fileset dir="${alt}/src/models" includes="**/*.java"/>
+        </replace>
+        <antcall target="build">
+            <param name="src" value="${alt}/src"/>
+            <param name="jar" value="${alt}/artifacts"/>
+        </antcall>
         <echo>Success!</echo>
-    </target>-->
+    </target>
 </project>

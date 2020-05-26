@@ -22,7 +22,7 @@ import static org.junit.jupiter.api.Assertions.*;
  * @author Кульбако Артемий.
  * @version 1.0
  */
-class DBManagerTest {
+public class DBManagerTest {
 
     private final DBManager manager = new DBManager();
     private final static String className = DBManager.class.getName();

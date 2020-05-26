@@ -13,7 +13,7 @@ import static org.junit.jupiter.api.Assertions.*;
  * @author Кульбако Артемий.
  * @version 1.0
  */
-class ControllerBeanTest {
+public class ControllerBeanTest {
 
     private final ControllerBean controller = new ControllerBean();
     private final static String className = Dot.class.getName();

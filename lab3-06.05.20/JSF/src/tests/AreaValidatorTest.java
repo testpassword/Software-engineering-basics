@@ -11,19 +11,19 @@ import static org.junit.jupiter.api.Assertions.*;
  * @author Кульбако Артемий.
  * @version 1.0
  */
-class AreaValidatorTest {
+public class AreaValidatorTest {
 
     private final static String className = AreaValidator.class.getName();
     private final String errMessage = "метод пропустил некорректные данные";
 
     @BeforeAll
-    static void init() { System.out.println("тестирование " + className + " запущено"); }
+    public static void init() { System.out.println("тестирование " + className + " запущено"); }
 
     @AfterAll
-    static void done() { System.out.println("тестирование " + className + " завершено"); }
+    public static void done() { System.out.println("тестирование " + className + " завершено"); }
 
     @Test
-    void checkArea() {
+    public void checkArea() {
         assertAll(
                 () -> assertEquals("TRUE", AreaValidator.checkArea("1", "-2", "3")),
                 () -> assertEquals("FALSE", AreaValidator.checkArea("-1", "-1", "-1"))
@@ -31,7 +31,7 @@ class AreaValidatorTest {
     }
 
     @Test
-    void validateX() {
+    public void validateX() {
         assertAll(
                 () -> assertThrows(NumberFormatException.class, () -> AreaValidator.validateX("-3.001"), this.errMessage),
                 () -> assertThrows(NumberFormatException.class, () -> AreaValidator.validateX("3.001"), this.errMessage)
@@ -39,7 +39,7 @@ class AreaValidatorTest {
     }
 
     @Test
-    void validateY() {
+    public void validateY() {
         assertAll(
                 () -> assertThrows(NumberFormatException.class, () -> AreaValidator.validateY("-5.001"), this.errMessage),
                 () -> assertThrows(NumberFormatException.class, () -> AreaValidator.validateY("3.001"), this.errMessage)
@@ -47,7 +47,7 @@ class AreaValidatorTest {
     }
 
     @Test
-    void validateR() {
+    public void validateR() {
         assertAll(
                 () -> assertThrows(NumberFormatException.class, () -> AreaValidator.validateR("0.999"), this.errMessage),
                 () -> assertThrows(NumberFormatException.class, () -> AreaValidator.validateR("4.001"), this.errMessage)
